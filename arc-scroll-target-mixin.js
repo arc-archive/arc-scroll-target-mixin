@@ -94,7 +94,7 @@ export const ArcScrollTargetMixin = (superClass) => class extends superClass {
 
   set isAttached(value) {
     this._isAttached = value;
-    this._scrollTargetChanged(this._scrollTarget, value);
+    this._scrollTargetChanged(this._scrollTarget);
   }
 
   /**
@@ -188,7 +188,7 @@ export const ArcScrollTargetMixin = (superClass) => class extends superClass {
     this.isAttached = true;
     setTimeout(() => {
       if (!this._oldScrollTarget && this.scrollTarget) {
-        this._scrollTargetChanged(this._scrollTarget, this._isAttached);
+        this._scrollTargetChanged(this._scrollTarget);
       }
     });
   }
@@ -206,12 +206,12 @@ export const ArcScrollTargetMixin = (superClass) => class extends superClass {
    */
   _scrollHandler() {}
 
-  _scrollTargetChanged(scrollTarget, isAttached) {
+  _scrollTargetChanged(scrollTarget) {
     if (this._oldScrollTarget) {
       this._toggleScrollListener(false, this._oldScrollTarget);
       this._oldScrollTarget = null;
     }
-    if (!isAttached) {
+    if (!this.isAttached) {
       return;
     }
     // Support element id references
@@ -305,7 +305,7 @@ export const ArcScrollTargetMixin = (superClass) => class extends superClass {
     if (!scrollTarget) {
       return;
     }
-    let eventTarget = scrollTarget === this._doc ? window : scrollTarget;
+    const eventTarget = scrollTarget === this._doc ? window : scrollTarget;
     if (yes) {
       if (!this._boundScrollHandler) {
         this._boundScrollHandler = this._scrollHandler.bind(this);
