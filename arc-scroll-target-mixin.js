@@ -29,8 +29,7 @@
  */
 export const ArcScrollTargetMixin = (superClass) => class extends superClass {
   static get properties() {
-    const top = super.properties || {};
-    const props = {
+    return {
       /**
        * Specifies the element that will handle the scroll event
        * on the behalf of the current element. This is typically a reference to an
@@ -66,16 +65,17 @@ export const ArcScrollTargetMixin = (superClass) => class extends superClass {
        * @type {HTMLElement}
        * @default document
        */
-      _scrollTarget: {
-        type: HTMLElement,
-        attribute: 'scroll-target'
-      }
+      scrollTarget: { type: HTMLElement },
+      /**
+       * The `scroll-target` attribute is deprecated as it is inconsistent
+       * with web platform attributes.
+       * @type {HTMLElement}
+       * @deprecated Use `scrolltarget` attribute instead
+       */
+      _legacyTarget: { type: HTMLElement, attribute: 'scroll-target' }
     };
-    return Object.assign({}, top, props);
   }
-  /**
-   *
-   */
+
   get scrollTarget() {
     return this._scrollTarget;
   }
@@ -85,7 +85,15 @@ export const ArcScrollTargetMixin = (superClass) => class extends superClass {
       return;
     }
     this._scrollTarget = value;
-    this._scrollTargetChanged(value, this._isAttached);
+    this._scrollTargetChanged(value);
+  }
+
+  get _legacyTarget() {
+    return this._scrollTarget;
+  }
+
+  set _legacyTarget(value) {
+    this.scrollTarget = value;
   }
 
   get isAttached() {

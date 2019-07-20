@@ -18,11 +18,9 @@ class XScrollableElement extends ArcScrollTargetMixin(LitElement) {
   }
 
   static get properties() {
-    const top = super.properties || {};
-    const props = {
+    return {
       itemCount: { type: Number }
     };
-    return Object.assign({}, top, props);
   }
 
   constructor() {

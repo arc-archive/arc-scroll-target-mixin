@@ -16,7 +16,7 @@ class XNestedScrollableElement extends LitElement {
 
   render() {
     return html`<div id="xRegion">
-      <scrollable-element id="xScrollable" scroll-target="xRegion"></scrollable-element>
+      <scrollable-element id="xScrollable" scrolltarget="xRegion"></scrollable-element>
     </div>`;
   }
 }

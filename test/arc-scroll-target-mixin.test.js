@@ -26,7 +26,7 @@ describe('ArcScrollTargetMixin', function() {
 
   async function trivialScrollingRegionFixture() {
     return (await fixture(`<div id="region">
-      <scrollable-element scroll-target="region"></scrollable-element>
+      <scrollable-element scrolltarget="region"></scrollable-element>
     </div>`));
   }
 
@@ -35,7 +35,13 @@ describe('ArcScrollTargetMixin', function() {
   }
 
   async function trivialDocumentScrollFixture() {
-    return (await fixture(`<scrollable-element scroll-target="document"></scrollable-element>`));
+    return (await fixture(`<scrollable-element scrolltarget="document"></scrollable-element>`));
+  }
+
+  async function legacyFixture() {
+    return (await fixture(`<div id="region">
+      <scrollable-element scroll-target="region"></scrollable-element>
+    </div>`));
   }
 
   describe('basic features', function() {
@@ -177,6 +183,58 @@ describe('ArcScrollTargetMixin', function() {
       xScrollable.scroll(3, 4);
       assert.equal(xScrollable._scrollLeft, 3);
       assert.equal(xScrollable._scrollTop, 4);
+    });
+  });
+
+  describe('legacy scroll-target', function() {
+    let scrollingRegion;
+    let xScrollable;
+
+    beforeEach(async () => {
+      scrollingRegion = await legacyFixture();
+      xScrollable = scrollingRegion.querySelector('scrollable-element');
+      await nextFrame();
+    });
+
+    afterEach(function() {
+      xScrollable._scrollTop = 0;
+      xScrollable._scrollLeft = 0;
+    });
+
+    it('scrollTarget reference', function() {
+      assert.equal(xScrollable.scrollTarget, scrollingRegion);
+    });
+
+    it('invalid scrollTarget', function() {
+      assert.equal(xScrollable.scrollTarget, scrollingRegion);
+    });
+
+    it('setters', function() {
+      xScrollable._scrollTop = 100;
+      xScrollable._scrollLeft = 100;
+      assert.equal(scrollingRegion.scrollTop, 100);
+      assert.equal(scrollingRegion.scrollLeft, 100);
+    });
+
+    it('getters', function() {
+      scrollingRegion.scrollTop = 50;
+      scrollingRegion.scrollLeft = 50;
+      assert.equal(xScrollable._scrollTop, 50, '_scrollTop');
+      assert.equal(xScrollable._scrollLeft, 50, '_scrollLeft');
+      assert.equal(xScrollable._scrollTargetWidth, scrollingRegion.offsetWidth, '_scrollTargetWidth');
+      assert.equal(xScrollable._scrollTargetHeight, scrollingRegion.offsetHeight, '_scrollTargetHeight');
+      assert.ok(xScrollable.scrollTarget, 'scrollTarget');
+      assert.ok(xScrollable._legacyTarget, '_legacyTarget');
+      assert.isTrue(xScrollable.scrollTarget === xScrollable._legacyTarget, 'Targets equal');
+    });
+
+    it('scroll method', function() {
+      xScrollable.scroll(110, 110);
+      assert.equal(xScrollable._scrollTop, 110);
+      assert.equal(xScrollable._scrollLeft, 110);
+      xScrollable.scroll(0, 0);
+      assert.equal(xScrollable._scrollTop, 0);
+      assert.equal(xScrollable._scrollLeft, 0);
     });
   });
 
