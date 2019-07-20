@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { ArcScrollTargetMixin } from '../arc-scroll-target-mixin.js';
 
-class XScrollable extends ArcScrollTargetMixin(LitElement) {
+class XScrollableElement extends ArcScrollTargetMixin(LitElement) {
   static get styles() {
     return css`
     :host {
@@ -20,7 +20,7 @@ class XScrollable extends ArcScrollTargetMixin(LitElement) {
   static get properties() {
     const top = super.properties || {};
     const props = {
-      itemCount: {type: Number}
+      itemCount: { type: Number }
     };
     return Object.assign({}, top, props);
   }
@@ -46,4 +46,4 @@ class XScrollable extends ArcScrollTargetMixin(LitElement) {
     return items;
   }
 }
-window.customElements.define('x-scrollable', XScrollable);
+window.customElements.define('scrollable-element', XScrollableElement);

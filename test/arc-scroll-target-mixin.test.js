@@ -1,9 +1,9 @@
-import {fixture, assert, nextFrame} from '@open-wc/testing';
+import { fixture, assert, nextFrame } from '@open-wc/testing';
 import sinon from 'sinon/pkg/sinon-esm.js';
 
 
-import './x-scrollable.js';
-import './x-nested-scrollable.js';
+import './scrollable-element.js';
+import './nested-scrollable-element.js';
 
 const s = document.createElement('style');
 s.type = 'text/css';
@@ -20,22 +20,22 @@ document.getElementsByTagName('head')[0].appendChild(s);
 describe('ArcScrollTargetMixin', function() {
   async function trivialScrollableFixture() {
     return (await fixture(`<div id="temporaryScrollingRegion">
-      <x-scrollable></x-scrollable>
+      <scrollable-element></scrollable-element>
     </div>`));
   }
 
   async function trivialScrollingRegionFixture() {
     return (await fixture(`<div id="region">
-      <x-scrollable scroll-target="region"></x-scrollable>
+      <scrollable-element scroll-target="region"></scrollable-element>
     </div>`));
   }
 
   async function trivialNestedScrollingRegionFixture() {
-    return (await fixture(`<x-nested-scrollable id="nestedScrollingRegion"></x-nested-scrollable>`));
+    return (await fixture(`<nested-scrollable-element id="nestedScrollingRegion"></nested-scrollable-element>`));
   }
 
   async function trivialDocumentScrollFixture() {
-    return (await fixture(`<x-scrollable scroll-target="document"></x-scrollable>`));
+    return (await fixture(`<scrollable-element scroll-target="document"></scrollable-element>`));
   }
 
   describe('basic features', function() {
@@ -43,7 +43,7 @@ describe('ArcScrollTargetMixin', function() {
     let xScroll;
     beforeEach(async () => {
       scrollingRegion = await trivialScrollableFixture();
-      xScroll = scrollingRegion.querySelector('x-scrollable');
+      xScroll = scrollingRegion.querySelector('scrollable-element');
       await nextFrame();
     });
 
@@ -83,9 +83,9 @@ describe('ArcScrollTargetMixin', function() {
         setTimeout(function() {
           xScroll._scrollHandler.restore();
           assert.isFalse(spy.called, '_scrollHandler should not be called');
-            done();
-          }, 100);
+          done();
         }, 100);
+      }, 100);
     });
   });
 
@@ -95,7 +95,7 @@ describe('ArcScrollTargetMixin', function() {
 
     beforeEach(async () => {
       scrollingRegion = await trivialScrollingRegionFixture();
-      xScrollable = scrollingRegion.querySelector('x-scrollable');
+      xScrollable = scrollingRegion.querySelector('scrollable-element');
       await nextFrame();
     });
 
