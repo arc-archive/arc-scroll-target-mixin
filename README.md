@@ -1,8 +1,8 @@
+# ArcScrollTargetMixin
+
 [![Published on NPM](https://img.shields.io/npm/v/@advanced-rest-client/arc-scroll-target-mixin.svg)](https://www.npmjs.com/package/@advanced-rest-client/arc-scroll-target-mixin)
 
-[![Build Status](https://travis-ci.org/advanced-rest-client/arc-scroll-target-mixin.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/arc-scroll-target-mixin)
-
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/arc-scroll-target-mixin)
+[![Tests and publishing](https://github.com/advanced-rest-client/arc-scroll-target-mixin/actions/workflows/deployment.yml/badge.svg)](https://github.com/advanced-rest-client/arc-scroll-target-mixin/actions/workflows/deployment.yml)
 
 This mixin is a port of [iron-overlay-behavior](https://github.com/PolymerElements/iron-overlay-behavior)
 that works with LitElement.
@@ -14,7 +14,7 @@ method to add logic on the scroll event.
 
 ## Installation
 
-```bash
+```sh
 npm i @advanced-rest-client/arc-scroll-target-mixin
 ```
 
