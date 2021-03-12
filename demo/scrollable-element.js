@@ -1,5 +1,6 @@
+/* eslint-disable no-param-reassign */
 import { LitElement, html, css } from 'lit-element';
-import { ArcScrollTargetMixin } from '../arc-scroll-target-mixin.js';
+import { ArcScrollTargetMixin } from '../index.js';
 
 class XScrollableElement extends ArcScrollTargetMixin(LitElement) {
   static get styles() {
