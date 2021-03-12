@@ -39,6 +39,7 @@ declare interface ArcScrollTargetMixin {
    * ```js
    * appHeader.scrollTarget = document.querySelector('#scrollable-element');
    * ```
+   * @attribute
    */
   scrollTarget: HTMLElement|string;
 
