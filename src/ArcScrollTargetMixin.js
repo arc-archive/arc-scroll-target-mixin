@@ -50,11 +50,13 @@ const mxFunction = base => {
         _legacyTarget: { attribute: 'scroll-target' }
       };
     }
-  
+    
+    /** @returns {HTMLElement} */
     get scrollTarget() {
       return this._scrollTarget;
     }
-  
+    
+    /** @param {HTMLElement} value */
     set scrollTarget(value) {
       if (value === this._scrollTarget) {
         return;
@@ -221,7 +223,7 @@ const mxFunction = base => {
         if (!target) {
           this.ownerDocument.querySelector(`#${scrollTarget}`);
         }
-        this.scrollTarget = target;
+        this.scrollTarget = /** @type HTMLElement */ (target);
       } else if (this._isValidScrollTarget()) {
         this._oldScrollTarget = scrollTarget;
         this._toggleScrollListener(this._shouldHaveListener, scrollTarget);
@@ -232,16 +234,18 @@ const mxFunction = base => {
      * Scrolls the content to a particular place.
      *
      * @method scroll
-     * @param {number|!{left: number, top: number}} leftOrOptions The left position or scroll options
+     * @param {number|ScrollToOptions} leftOrOptions The left position or scroll options
      * @param {number=} top The top position
      * @return {void}
      */
     scroll(leftOrOptions, top) {
       let left;
+      let behavior;
   
       if (typeof leftOrOptions === 'object') {
         left = leftOrOptions.left;
         top = leftOrOptions.top;
+        behavior = leftOrOptions.behavior;
       } else {
         left = leftOrOptions;
       }
@@ -249,10 +253,26 @@ const mxFunction = base => {
       left = left || 0;
       top = top || 0;
       if (this.scrollTarget === this._doc) {
-        window.scrollTo(left, top);
+        if (behavior) {
+          window.scroll({
+            left,
+            top,
+            behavior,
+          });
+        } else {
+          window.scrollTo(left, top);
+        }
       } else if (this._isValidScrollTarget()) {
-        this.scrollTarget.scrollLeft = left;
-        this.scrollTarget.scrollTop = top;
+        if (behavior) {
+          this.scrollTarget.scroll({
+            left,
+            top,
+            behavior,
+          });
+        } else {
+          this.scrollTarget.scrollLeft = left;
+          this.scrollTarget.scrollTop = top;
+        }
       }
     }
   
@@ -263,8 +283,7 @@ const mxFunction = base => {
      */
     get _scrollTargetWidth() {
       if (this._isValidScrollTarget()) {
-        return this.scrollTarget === this._doc ? window.innerWidth :
-                                                 this.scrollTarget.offsetWidth;
+        return this.scrollTarget === this._doc ? window.innerWidth : this.scrollTarget.offsetWidth;
       }
       return 0;
     }
