@@ -7,6 +7,9 @@ declare interface ArcScrollTargetMixinConstructor {
   new(...args: any[]): ArcScrollTargetMixin;
 }
 
+/**
+ * @deprecated Use the `@anypoint-web-components/awc` module instead.
+ */
 declare interface ArcScrollTargetMixin {
   /**
    * Specifies the element that will handle the scroll event
